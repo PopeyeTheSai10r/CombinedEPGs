@@ -29,12 +29,14 @@ jobs:
               $ca_prog = get-content ca.xml | select-string -pattern "<programme start="
 
               New-Item combined.xml -Force
+              Add-Content combined.xml '<?xml version="1.0" encoding="UTF-8" ?><tv date="20221214">'
               Add-Content combined.xml $us_ch
               Add-Content combined.xml $uk_ch
               Add-Content combined.xml $ca_ch
               Add-Content combined.xml $us_prog
               Add-Content combined.xml $uk_prog
               Add-Content combined.xml $ca_prog
+              Add-Content combined.xml '</tv>'
           
       - name: Commit changes (if needed)
         run: |
