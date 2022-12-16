@@ -35,7 +35,7 @@ jobs:
           
       - name: Create file and append
         run: |
-          New-Item combined.xml
+          Get-content combined.xml
           Add-Content combined.xml $head
           Add-Content combined.xml $us_ch
           Add-Content combined.xml $uk_ch
