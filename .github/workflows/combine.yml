@@ -32,7 +32,7 @@ jobs:
           
       - name: Create file and append
         run: |
-          Get-content combined.xml
+          New-Item combined.xml -Force
           Add-Content combined.xml $head
           Add-Content combined.xml $us_ch
           Add-Content combined.xml $uk_ch
