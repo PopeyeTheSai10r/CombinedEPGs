@@ -19,7 +19,7 @@ jobs:
         run: |
           Invoke-WebRequest https://iptv-org.github.io/epg/guides/us.xml -OutFile us.xml
           Invoke-WebRequest https://iptv-org.github.io/epg/guides/uk.xml -OutFile uk.xml
-          Invoke-WebRequest https://iptv-org.github.io/epg/guides/ca.xml -OutFile can.xml
+          Invoke-WebRequest https://iptv-org.github.io/epg/guides/ca.xml -OutFile ca.xml
         
       - name: Convert to variables
         run: |
