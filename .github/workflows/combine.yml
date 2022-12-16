@@ -17,26 +17,24 @@ jobs:
 
       - name: Download & Convert to variables
         run: |
-          Invoke-WebRequest https://iptv-org.github.io/epg/guides/us.xml -OutFile us.xml
-          Invoke-WebRequest https://iptv-org.github.io/epg/guides/uk.xml -OutFile uk.xml
-          Invoke-WebRequest https://iptv-org.github.io/epg/guides/ca.xml -OutFile ca.xml
-          
-          $us_ch = get-content us.xml | select-string -pattern "<channel id="
-          $us_prog = get-content us.xml | select-string -pattern "<programme start="
-          $uk_ch = get-content uk.xml | select-string -pattern "<channel id="
-          $uk_prog = get-content uk.xml | select-string -pattern "<programme start="
-          $ca_ch = get-content ca.xml | select-string -pattern "<channel id="
-          $ca_prog = get-content ca.xml | select-string -pattern "<programme start="
-          
-      - name: Create file and append
-        run: |
-          New-Item combined.xml -Force
-          Add-Content combined.xml $us_ch
-          Add-Content combined.xml $uk_ch
-          Add-Content combined.xml $ca_ch
-          Add-Content combined.xml $us_prog 
-          Add-Content combined.xml $uk_prog
-          Add-Content combined.xml $ca_prog
+              Invoke-WebRequest https://iptv-org.github.io/epg/guides/us.xml -OutFile us.xml
+              Invoke-WebRequest https://iptv-org.github.io/epg/guides/uk.xml -OutFile uk.xml
+              Invoke-WebRequest https://iptv-org.github.io/epg/guides/ca.xml -OutFile ca.xml
+
+              $us_ch = get-content us.xml | select-string -pattern "<channel id="
+              $us_prog = get-content us.xml | select-string -pattern "<programme start="
+              $uk_ch = get-content uk.xml | select-string -pattern "<channel id="
+              $uk_prog = get-content uk.xml | select-string -pattern "<programme start="
+              $ca_ch = get-content ca.xml | select-string -pattern "<channel id="
+              $ca_prog = get-content ca.xml | select-string -pattern "<programme start="
+
+              New-Item combined.xml -Force
+              Add-Content combined.xml $us_ch
+              Add-Content combined.xml $uk_ch
+              Add-Content combined.xml $ca_ch
+              Add-Content combined.xml $us_prog
+              Add-Content combined.xml $uk_prog
+              Add-Content combined.xml $ca_prog
           
       - name: Commit changes (if needed)
         run: |
