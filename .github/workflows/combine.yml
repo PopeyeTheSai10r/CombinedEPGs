@@ -1,0 +1,51 @@
+name: combine
+on:
+  schedule:
+  - cron: "0 7  * * *"
+  workflow_dispatch:
+  
+defaults:
+  run:
+    shell: pwsh          
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download
+        run: |
+          Invoke-WebRequest https://iptv-org.github.io/epg/guides/us.xml -OutFile us.xml
+          Invoke-WebRequest https://iptv-org.github.io/epg/guides/uk.xml -OutFile uk.xml
+          Invoke-WebRequest https://iptv-org.github.io/epg/guides/ca.xml -OutFile can.xml
+        
+      - name: Convert to variables
+        run: |
+          $today = date -format 'yyyy-MM-dd'
+          $head = <?xml version="1.0" encoding="UTF-8" ?><tv date="">
+          $us_ch = get-content us.xml | select-string -pattern "<channel id="
+          $us_prog = get-content us.xml | select-string -pattern "<programme start="
+          $uk_ch = get-content uk.xml | select-string -pattern "<channel id="
+          $uk_prog = get-content uk.xml | select-string -pattern "<programme start="
+          $ca_ch = get-content ca.xml | select-string -pattern "<channel id="
+          $ca_prog = get-content ca.xml | select-string -pattern "<programme start="
+          
+      - name: Create file and append
+        run: |
+          New-Item combined.xml
+          Add-Content combined.xml 
+          Add-Content combined.xml $us_ch
+          Add-Content combined.xml $uk_ch
+          Add-Content combined.xml $ca_ch
+          Add-Content combined.xml $us_prog 
+          Add-Content combined.xml $uk_prog
+          Add-Content combined.xml $ca_prog
+          Add-Content combined.xml </tv>
+          
+      - name: Commit changes (if needed)
+        run: |
+          git config --global user.name "${{ secrets.GIT_USER }}" && git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git add combined.xml && git commit -m "[Auto commit] $today run"
+          git status && git push origin main
