@@ -25,6 +25,7 @@ jobs:
         run: |
           $today = date +"%Y-%m-%d"
           $head = '<?xml version="1.0" encoding="UTF-8" ?><tv date="">"'
+          $end = '</tv>'
           $us_ch = get-content us.xml | select-string -pattern "<channel id="
           $us_prog = get-content us.xml | select-string -pattern "<programme start="
           $uk_ch = get-content uk.xml | select-string -pattern "<channel id="
@@ -35,14 +36,14 @@ jobs:
       - name: Create file and append
         run: |
           New-Item combined.xml
-          Add-Content combined.xml 
+          Add-Content combined.xml $head
           Add-Content combined.xml $us_ch
           Add-Content combined.xml $uk_ch
           Add-Content combined.xml $ca_ch
           Add-Content combined.xml $us_prog 
           Add-Content combined.xml $uk_prog
           Add-Content combined.xml $ca_prog
-          Add-Content combined.xml </tv>
+          Add-Content combined.xml $end
           
       - name: Commit changes (if needed)
         run: |
