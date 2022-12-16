@@ -23,7 +23,7 @@ jobs:
         
       - name: Convert to variables
         run: |
-          $today = date -format 'yyyy-MM-dd'
+          $today = date -format yyyy-MM-dd
           $head = '<?xml version="1.0" encoding="UTF-8" ?><tv date="">"'
           $us_ch = get-content us.xml | select-string -pattern "<channel id="
           $us_prog = get-content us.xml | select-string -pattern "<programme start="
